@@ -11,7 +11,7 @@ These containers are focused on providing the data foundation used in my develop
 
 ----------
 
-####Installation Steps####
+#### Installation Steps ####
 
 Pre-reqs: Docker (and docker-compose) should be set up and running correctly.
 
@@ -26,7 +26,7 @@ Pre-reqs: Docker (and docker-compose) should be set up and running correctly.
 
 ----------
 
-#####cdf-local `docker-compose` files#####
+##### cdf-local `docker-compose` files #####
 
 - **docker-compose-data.yml**
 	- [Microsoft SQL Server](https://hub.docker.com/_/microsoft-mssql-server) 
@@ -57,7 +57,7 @@ The companion `docker-down.ps1` runs `docker compose down` on all containers.
 
 ----------
 
-#####References & Thanks!#####
+##### References & Thanks! #####
 
 Thanks to all the old-hats out there that have been blogging for years and the official sites/documentation that exists. Though this took me a bit longer than I initially forecast, the learning was worth it. Other than the official doc sites, here is a list of sites that continue to assist me in my journey:
  
