@@ -1,0 +1,59 @@
+version: '3.9'
+
+############################################
+# 1 Run: docker network create cdflocal-mesh
+############################################
+networks: 
+  default:
+    external:
+      name: cdflocal-mesh
+
+volumes:
+  cdflocal-data-sql:
+    external: false
+  cdflocal-data-nosql:
+    external: false
+  cdflocal-data-nosql-config:
+    external: false
+  cdflocal-data-cache:
+    external: false
+
+services:
+  #data-nosql:
+  #  container_name: data-nosql-mongodb
+  #  build: 
+  #    context:      ./server-conf/mongo
+  #  restart:        always
+  #  environment:
+  #    MONGO_INITDB_ROOT_USERNAME:     "${MONGO_ROOT_USER}"
+  #    MONGO_INITDB_ROOT_PASSWORD:     "${DATASERVICES_ROOT_PASSWORD}"
+  #    MONGO_INITDB_DATABASE:          "${MONGO_INIT_DB}"
+  #    MONGO_INITDB_USERNAME:          "${MONGO_INIT_DB_USERNAME}"
+  #    MONGO_INITDB_PASSWORD:          "${MONGO_INIT_DB_PASSWORD}"
+  #  ports:
+  #    - target:     27017
+  #      published:  27017
+  #      protocol:   tcp
+  #      mode:       host
+  #  volumes:
+  #    - cdflocal-data-nosql:/data/db
+  #    - cdflocal-data-nosql-config:/data/configdb
+    
+  #mongo-express:
+  #  image:          mongo-express
+  #  container_name: admin-nosql-mongodb
+  #  restart:        always
+  #  ports:
+  #    - target:     8081
+  #      published:  8082
+  #      protocol:   tcp
+  #      mode:       host
+  #  environment:
+  #    ME_CONFIG_MONGODB_SERVER:         "data-nosql-mongodb"
+  #    ME_CONFIG_MONGODB_PORT:           27017
+  #    ME_CONFIG_MONGODB_ENABLE_ADMIN:   "true"
+  #    ME_CONFIG_MONGODB_ADMINUSERNAME:  "${MONGO_ROOT_USER}"
+  #    ME_CONFIG_MONGODB_ADMINPASSWORD:  "${DATASERVICES_ROOT_PASSWORD}"
+  #    ME_CONFIG_BASICAUTH_USERNAME:     "${MONGOEXPRESS_LOGIN}"
+  #    ME_CONFIG_BASICAUTH_PASSWORD:     "${MONGOEXPRESS_PASSWORD}"
+  #    ME_CONFIG_OPTIONS_EDITORTHEME:    "ambiance"

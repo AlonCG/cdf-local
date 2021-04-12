@@ -1,0 +1,84 @@
+version: '3.9'
+
+############################################
+# 1 Run: docker network create cdflocal-mesh
+############################################
+networks: 
+  default:
+    external:
+      name: cdflocal-mesh
+
+volumes:
+  cdflocal-data-sql:
+    external: false
+  cdflocal-data-nosql:
+    external: false
+  cdflocal-data-nosql-config:
+    external: false
+  cdflocal-data-cache:
+    external: false
+
+services:
+  data-sql:
+    image: mcr.microsoft.com/mssql/server:2019-latest 
+    container_name: data-sql
+    environment:
+      ACCEPT_EULA:      "Y"
+      SA_PASSWORD:      "${DATASERVICES_ROOT_PASSWORD}"
+      MSSQL_PID:        "Developer"
+    ports:
+      - target: 1433
+        published: 5433
+        protocol: tcp
+        mode: host
+    volumes:
+      - cdflocal-data-sql:/var/opt/mssql
+
+  data-nosql:
+    container_name: data-nosql-mongodb
+    build: 
+      context:      ./server-conf/mongo
+    image:          cdflocal-mongodb
+    restart:        always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME:     "${MONGO_ROOT_USER}"
+      MONGO_INITDB_ROOT_PASSWORD:     "${DATASERVICES_ROOT_PASSWORD}"
+      MONGO_INITDB_DATABASE:          "${MONGO_INIT_DB}"
+      MONGO_INITDB_USERNAME:          "${MONGO_INIT_DB_USERNAME}"
+      MONGO_INITDB_PASSWORD:          "${MONGO_INIT_DB_PASSWORD}"
+    ports:
+      - target:     27017
+        published:  27017
+        protocol:   tcp
+        mode:       host
+    volumes:
+      - cdflocal-data-nosql:/data/db
+      - cdflocal-data-nosql-config:/data/configdb
+
+  alpine-helper: 
+    image: alpine
+    privileged: true
+    restart: 'no'
+    command: > 
+      sh -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled &&
+      echo never > /sys/kernel/mm/transparent_hugepage/defrag &&
+      echo 1 > /proc/sys/vm/overcommit_memory"
+  
+  data-cache:
+    depends_on:
+      - alpine-helper
+    container_name:   data-cache-redis
+    build: 
+      context:        ./server-conf/redis
+    image:            cdflocal-redis
+    privileged: true
+    command: sh -c "./init.sh"
+    sysctls:
+      net.core.somaxconn: 512
+    volumes:
+      - cdflocal-data-cache:/data
+    ports:
+      - target:     6379
+        published:  6379
+        protocol:   tcp
+        mode:       host

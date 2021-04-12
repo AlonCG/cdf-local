@@ -1,0 +1,54 @@
+version: '3.9'
+
+############################################
+# 1 Run: docker network create cdflocal-mesh
+############################################
+networks: 
+  default:
+    external:
+      name: cdflocal-mesh
+
+services:
+  redis-commander:
+    image:          rediscommander/redis-commander:latest
+    container_name: admin-cache-redis
+    restart:        always
+    environment:
+      REDIS_HOSTS:    "local:data-cache-redis:6379"
+      HTTP_USER:      "${MONGOEXPRESS_LOGIN}"
+      HTTP_PASSWORD:  "${DATASERVICES_ROOT_PASSWORD}"
+    ports:
+      - target:     8081
+        published:  8081
+        protocol:   tcp
+        mode:       host
+
+  mongo-express:
+    image:          mongo-express
+    container_name: admin-nosql-mongodb
+    restart:        always
+    ports:
+      - target:     8081
+        published:  8082
+        protocol:   tcp
+        mode:       host
+    environment:
+      ME_CONFIG_MONGODB_SERVER:         "data-nosql-mongodb"
+      ME_CONFIG_MONGODB_PORT:           27017
+      ME_CONFIG_MONGODB_ENABLE_ADMIN:   "true"
+      ME_CONFIG_MONGODB_ADMINUSERNAME:  "${MONGO_ROOT_USER}"
+      ME_CONFIG_MONGODB_ADMINPASSWORD:  "${DATASERVICES_ROOT_PASSWORD}"
+      ME_CONFIG_BASICAUTH_USERNAME:     "${MONGOEXPRESS_LOGIN}"
+      ME_CONFIG_BASICAUTH_PASSWORD:     "${MONGOEXPRESS_PASSWORD}"
+      ME_CONFIG_OPTIONS_EDITORTHEME:    "ambiance"
+
+  seq:
+    image:            datalust/seq:latest
+    container_name:   seq
+    environment:
+      ACCEPT_EULA:    "Y"
+    ports:
+      - target:       80
+        published:    5340
+        protocol:     tcp
+        mode:         host
