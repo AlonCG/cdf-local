@@ -53,7 +53,9 @@ This PowerShell helper script can be used to build or start (`docker compose up`
 - `-Force:$true`, appends `--force-recreate --renew-anon-volumes` to the `docker compose up` command
 - `-Detach:$true`, appends `--detach` to the `docker compose up` command
 
-The companion `docker-down.ps1` runs `docker compose down` on all containers.
+The companion files ...
+`docker-down.ps1` runs `docker compose down` on all containers,
+`docker-stop.ps1` runs `docker compose stop` on all containers.
 
 ----------
 
