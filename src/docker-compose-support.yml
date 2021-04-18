@@ -52,3 +52,12 @@ services:
         published:    5340
         protocol:     tcp
         mode:         host
+
+  zipkin:
+    image:            openzipkin/zipkin-slim
+    container_name:   admin-zipkin
+    ports:
+      - target:       9411
+        published:    5411
+        protocol:     tcp
+        mode:         host

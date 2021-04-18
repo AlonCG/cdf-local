@@ -37,6 +37,7 @@ Pre-reqs: Docker (and docker-compose) should be set up and running correctly.
 	- [rediscommander](https://hub.docker.com/r/rediscommander/redis-commander)
 	- [mongo express](https://hub.docker.com/_/mongo-express)
 	- [seq](https://hub.docker.com/r/datalust/seq)
+	- [zipkin](https://hub.docker.com/r/openzipkin/zipkin)
 - **docker-compose-azure.yml**
 	- Azure Blob Storage Emulator via [Azureite](https://hub.docker.com/_/microsoft-azure-storage-azurite)
 - **docker-compose.yml**
