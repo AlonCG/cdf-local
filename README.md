@@ -1,5 +1,5 @@
 #### <u>c</u>ore <u>d</u>ata <u>f</u>oundation - local ####
-##### v0.1-alpha, April 2021 #####
+##### v0.2-alpha, April 2021 #####
 
 ----------
 
