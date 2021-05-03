@@ -1,4 +1,4 @@
-param([switch]$BuildOnly = $false, [switch]$Azure = $false, [switch]$Detach = $false, [switch]$Force = $false)
+param([switch]$BuildOnly = $false, [switch]$Azure = $false, [switch]$Detach = $true, [switch]$Force = $false)
 
 $stringBuilder = New-Object -TypeName "System.Text.StringBuilder"
  
